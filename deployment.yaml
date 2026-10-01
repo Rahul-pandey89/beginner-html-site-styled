@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: html-site-deployment
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: html-site
+  template:
+    metadata:
+      labels:
+        app: html-site
+    spec:
+      containers:
+      - name: html-site
+        image: nginx:alpine
+        ports:
+        - containerPort: 80
