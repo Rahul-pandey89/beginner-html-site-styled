@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials')
-        DOCKER_IMAGE = 'rahul-pandey89/beginner-html-site:latest'
+        DOCKER_IMAGE = 'rahulpandeyyy/beginner-html-site:latest'
     }
 
     stages {
@@ -30,13 +30,11 @@ pipeline {
 
         stage('Deploy to Kubernetes') {
             steps {
-                configFileProvider([]) {
-                    withCredentials([file(credentialsId: 'k8s-kubeconfig', variable: 'KUBECONFIG')]) {
-                        sh '''
-                            kubectl apply -f deployment.yaml --kubeconfig=$KUBECONFIG
-                            kubectl apply -f service.yaml --kubeconfig=$KUBECONFIG
-                        '''
-                    }
+                withCredentials([file(credentialsId: 'k8s-kubeconfig', variable: 'KUBECONFIG')]) {
+                    sh '''
+                        kubectl apply -f deployment.yaml --kubeconfig=$KUBECONFIG
+                        kubectl apply -f service.yaml --kubeconfig=$KUBECONFIG
+                    '''
                 }
             }
         }
